@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Restricted Footage</title>
+
+<title>RED ROOM</title>
 
 <style>
 *{
@@ -11,349 +12,259 @@
     -webkit-tap-highlight-color:transparent;
 }
 
-html,body{
-    margin:0;
-    width:100%;
-    min-height:100%;
-    background:#070707;
-    color:#eee;
-    font-family:Arial,Helvetica,sans-serif;
-}
-
 body{
-    overflow-x:hidden;
-}
-
-.page{
+    margin:0;
     min-height:100vh;
-    background:
-        radial-gradient(circle at 50% 20%,#242424 0,#0d0d0d 35%,#030303 80%);
-}
-
-/* TOP BAR */
-
-.topbar{
-    height:55px;
-    border-bottom:1px solid #252525;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 18px;
-    color:#777;
-    font-size:10px;
-    letter-spacing:2px;
-}
-
-.logo{
-    color:#aaa;
-}
-
-.live{
-    color:#777;
-}
-
-.dot{
-    display:inline-block;
-    width:6px;
-    height:6px;
-    background:#777;
-    border-radius:50%;
-    margin-right:6px;
-}
-
-/* CONTENT */
-
-.container{
-    width:min(720px,92%);
-    margin:auto;
-    padding:38px 0 60px;
-}
-
-.warning{
-    color:#aaa;
-    font-size:10px;
-    letter-spacing:3px;
-    margin-bottom:14px;
-}
-
-.warning span{
-    color:#ddd;
+    background:#050505;
+    color:white;
+    font-family:Arial,Helvetica,sans-serif;
+    overflow:hidden;
 }
 
 /* TITLE */
 
-h1{
-    font-size:28px;
-    font-weight:400;
-    letter-spacing:3px;
-    margin:0 0 9px;
+.title{
+    text-align:center;
+    padding:25px 10px 18px;
+
+    font-family:Georgia,serif;
+    font-size:clamp(42px,13vw,90px);
+    font-weight:900;
+    letter-spacing:5px;
+
+    color:#8b0000;
+
+    text-shadow:
+        0 2px 0 #300000,
+        0 5px 12px #000,
+        0 0 25px rgba(120,0,0,.5);
 }
 
-.sub{
-    color:#777;
-    font-size:12px;
-    line-height:1.6;
-    margin-bottom:25px;
+/* MAIN */
+
+.container{
+    width:min(720px,94%);
+    margin:auto;
 }
 
-/* FAKE FOOTAGE */
+/* VIDEO */
 
-.footage{
+.video{
     position:relative;
     width:100%;
     aspect-ratio:16/10;
+
     overflow:hidden;
-    background:#111;
-    border:1px solid #292929;
-    box-shadow:0 20px 70px rgba(0,0,0,.7);
+    background:#151010;
+    border:1px solid #321010;
+    box-shadow:0 15px 50px #000;
 }
 
-/* blurred suggestive silhouette */
+/* BLURRED SCENE */
 
 .scene{
     position:absolute;
-    inset:-25px;
-    filter:blur(15px);
-    transform:scale(1.08);
+    inset:-40px;
+
+    filter:blur(25px);
+    transform:scale(1.12);
+
     background:
         radial-gradient(
-            ellipse at 52% 28%,
-            rgba(190,160,150,.55) 0 8%,
-            transparent 9%
+            ellipse at 35% 48%,
+            #765d58 0 12%,
+            transparent 13%
         ),
         radial-gradient(
-            ellipse at 50% 58%,
-            rgba(120,85,80,.75) 0 17%,
-            transparent 18%
+            ellipse at 65% 48%,
+            #69524e 0 13%,
+            transparent 14%
         ),
         linear-gradient(
-            105deg,
-            #080808 0%,
-            #34302f 43%,
-            #171414 60%,
-            #050505 100%
+            160deg,
+            #241b1b,
+            #56433f 42%,
+            #211818 65%,
+            #070707
         );
 }
 
-/* silhouette shape */
+/* BED */
+
+.scene:before{
+    content:"";
+
+    position:absolute;
+    left:5%;
+    right:5%;
+    bottom:0;
+
+    height:48%;
+
+    border-radius:50% 50% 5% 5%;
+
+    background:
+        linear-gradient(
+            160deg,
+            #62504d,
+            #292120 70%,
+            #111
+        );
+}
+
+/* TWO BLURRED FIGURES */
 
 .scene:after{
     content:"";
+
     position:absolute;
-    width:42%;
-    height:80%;
-    left:29%;
-    top:14%;
-    border-radius:50% 50% 35% 35%;
+
+    width:70%;
+    height:45%;
+
+    left:15%;
+    top:22%;
+
+    border-radius:50%;
+
     background:
-        linear-gradient(
-            90deg,
-            #151515,
-            #806965 48%,
-            #171414
-        );
-    opacity:.45;
+        radial-gradient(
+            ellipse at 28% 50%,
+            #806966 0 13%,
+            transparent 14%
+        ),
+        radial-gradient(
+            ellipse at 72% 48%,
+            #77605c 0 13%,
+            transparent 14%
+        ),
+        rgba(30,22,22,.7);
 }
 
-/* dark overlay */
+/* DARK OVERLAY */
 
-.footage:before{
+.video::after{
     content:"";
+
     position:absolute;
     inset:0;
-    z-index:2;
+
     background:
         linear-gradient(
             to bottom,
-            rgba(0,0,0,.25),
-            rgba(0,0,0,.05) 45%,
-            rgba(0,0,0,.65)
+            rgba(0,0,0,.35),
+            transparent 45%,
+            rgba(0,0,0,.75)
         );
 }
 
-/* warning over image */
+/* SIMPLE PLAYER */
 
-.restricted{
+.player{
     position:absolute;
-    z-index:4;
-    top:18px;
-    left:18px;
-    padding:8px 10px;
-    border:1px solid rgba(255,255,255,.25);
-    background:rgba(0,0,0,.65);
-    font-size:9px;
-    letter-spacing:2px;
-}
 
-.blurtext{
-    position:absolute;
-    z-index:4;
+    z-index:5;
+
     left:0;
     right:0;
-    top:50%;
-    transform:translateY(-50%);
-    text-align:center;
-    font-size:12px;
-    letter-spacing:4px;
-    color:#eee;
-    text-shadow:0 2px 12px #000;
-}
-
-/* play button */
-
-.play{
-    position:absolute;
-    z-index:5;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
-    width:68px;
-    height:68px;
-    border-radius:50%;
-    border:1px solid rgba(255,255,255,.7);
-    background:rgba(0,0,0,.55);
-    color:white;
-    font-size:23px;
-    padding-left:5px;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.play:hover{
-    background:rgba(255,255,255,.15);
-    transform:translate(-50%,-50%) scale(1.06);
-}
-
-.play:active{
-    transform:translate(-50%,-50%) scale(.94);
-}
-
-/* bottom video bar */
-
-.video-bottom{
-    position:absolute;
-    z-index:5;
     bottom:0;
-    left:0;
-    right:0;
-    height:38px;
-    padding:0 13px;
+
+    height:55px;
+
+    padding:0 15px;
+
     display:flex;
     align-items:center;
     gap:12px;
-    background:linear-gradient(transparent,rgba(0,0,0,.85));
+
+    background:linear-gradient(
+        transparent,
+        rgba(0,0,0,.9)
+    );
+}
+
+.play{
+    font-size:17px;
 }
 
 .time{
-    color:#aaa;
-    font-size:9px;
-    letter-spacing:1px;
-}
-
-.fake-line{
-    height:2px;
-    flex:1;
-    background:#333;
-}
-
-.fake-line div{
-    width:17%;
-    height:100%;
-    background:#aaa;
-}
-
-/* DETAILS */
-
-.details{
-    display:flex;
-    justify-content:space-between;
-    padding:15px 2px;
-    border-bottom:1px solid #222;
-    color:#666;
     font-size:10px;
-    letter-spacing:1px;
-}
-
-.description{
-    padding:23px 2px;
-    color:#777;
-    font-size:12px;
-    line-height:1.8;
-}
-
-.description strong{
-    color:#bbb;
-    font-weight:400;
-}
-
-/* WATCH BUTTON */
-
-.watch{
-    width:100%;
-    padding:17px;
-    border:1px solid #555;
-    background:#111;
-    color:#eee;
-    font-size:11px;
-    letter-spacing:4px;
-    cursor:pointer;
-    margin-top:5px;
-    transition:.2s;
-}
-
-.watch:hover{
-    background:#1b1b1b;
-}
-
-.watch:active{
-    transform:scale(.99);
-}
-
-/* FAKE LOADING */
-
-.loading{
-    position:fixed;
-    inset:0;
-    z-index:30;
-    background:#050505;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    opacity:0;
-    pointer-events:none;
-    transition:opacity .3s;
-}
-
-.loading.show{
-    opacity:1;
-    pointer-events:auto;
-}
-
-.loading-title{
-    font-size:11px;
-    letter-spacing:3px;
     color:#aaa;
 }
 
-.loading-status{
-    margin-top:12px;
-    font-size:9px;
-    letter-spacing:2px;
-    color:#555;
+.line{
+    flex:1;
+    height:3px;
+    background:#444;
+    overflow:hidden;
 }
 
-.progress{
-    width:min(300px,70%);
-    height:2px;
-    margin-top:22px;
-    background:#222;
-}
-
-.progress-bar{
+.line div{
     width:0%;
     height:100%;
     background:#aaa;
+
+    transition:width .2s linear;
+}
+
+/* LOADING */
+
+.loading{
+    position:absolute;
+
+    z-index:10;
+
+    inset:0;
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(0,0,0,.55);
+
+    backdrop-filter:blur(4px);
+}
+
+.loading-text{
+    font-size:11px;
+    letter-spacing:3px;
+    color:#ddd;
+}
+
+.loading-small{
+    margin-top:10px;
+    font-size:9px;
+    letter-spacing:2px;
+    color:#777;
+}
+
+/* BUTTON */
+
+.start{
+    display:block;
+
+    width:100%;
+
+    margin-top:15px;
+
+    padding:16px;
+
+    border:1px solid #3b1111;
+
+    background:#100707;
+
+    color:#aaa;
+
+    letter-spacing:3px;
+    font-size:10px;
+
+    cursor:pointer;
+}
+
+.start:active{
+    transform:scale(.99);
 }
 
 /* FLASH */
@@ -361,14 +272,17 @@ h1{
 .flash{
     position:fixed;
     inset:0;
-    z-index:60;
+
+    z-index:50;
+
     background:white;
+
     opacity:0;
     pointer-events:none;
 }
 
 .flash.active{
-    animation:flash .45s ease-out;
+    animation:flash .35s;
 }
 
 @keyframes flash{
@@ -377,253 +291,170 @@ h1{
     100%{opacity:0}
 }
 
-/* FINAL */
+/* END */
 
-.final{
+.end{
     position:fixed;
     inset:0;
-    z-index:70;
+
+    z-index:60;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    text-align:center;
+
     background:#000;
+
     opacity:0;
     pointer-events:none;
 }
 
-.final.show{
-    animation:finalScreen 2.5s forwards;
+.end.show{
+    animation:endScreen 2.5s forwards;
 }
 
-.final-text{
-    font-size:13px;
-    letter-spacing:5px;
-    color:#eee;
+.end-text{
+    color:#8b0000;
+    font-family:Georgia,serif;
+    font-size:24px;
+    letter-spacing:6px;
 }
 
-@keyframes finalScreen{
+@keyframes endScreen{
     0%{opacity:0}
-    12%{opacity:1}
+    15%{opacity:1}
     75%{opacity:1}
     100%{opacity:0}
-}
-
-.footer{
-    text-align:center;
-    color:#333;
-    font-size:8px;
-    letter-spacing:2px;
-    padding:25px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="page">
-
-    <div class="topbar">
-        <div class="logo">ARCHIVE / 07</div>
-        <div class="live">
-            <span class="dot"></span>
-            PRIVATE SERVER
-        </div>
-    </div>
-
-    <main class="container">
-
-        <div class="warning">
-            ⚠ <span>RESTRICTED FOOTAGE</span> — 18+ ONLY
-        </div>
-
-        <h1>UNRELEASED FOOTAGE</h1>
-
-        <div class="sub">
-            Original source unavailable. Viewer discretion advised.
-        </div>
-
-        <div class="footage">
-
-            <div class="scene"></div>
-
-            <div class="restricted">
-                18+ / RESTRICTED
-            </div>
-
-            <div class="blurtext">
-                CONTENT PREVIEW BLURRED
-            </div>
-
-            <button class="play" id="play">
-                ▶
-            </button>
-
-            <div class="video-bottom">
-                <div class="time">00:00 / 04:17</div>
-                <div class="fake-line">
-                    <div></div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="details">
-            <span>1,284,921 VIEWS</span>
-            <span>UPLOADED 2 HOURS AGO</span>
-        </div>
-
-        <div class="description">
-            <strong>DESCRIPTION</strong><br><br>
-
-            This footage appeared briefly on a private archive
-            before being removed. The original uploader has not
-            been identified.
-            <br><br>
-
-            The complete recording is available below.
-        </div>
-
-        <button class="watch" id="watch">
-            ▶ &nbsp; WATCH FULL FOOTAGE
-        </button>
-
-        <div class="footer">
-            ARCHIVE SYSTEM • CONNECTION SECURE
-        </div>
-
-    </main>
-
+<div class="title">
+    RED ROOM
 </div>
 
+<div class="container">
 
-<!-- LOADING -->
+    <div class="video">
 
-<div class="loading" id="loading">
+        <div class="scene"></div>
 
-    <div class="loading-title">
-        CONNECTING TO SOURCE...
+        <div class="loading" id="loading">
+            <div class="loading-text">
+                LOADING VIDEO
+            </div>
+
+            <div class="loading-small" id="loadingText">
+                BUFFERING...
+            </div>
+        </div>
+
+        <div class="player">
+
+            <div class="play">▶</div>
+
+            <div class="time">
+                00:00
+            </div>
+
+            <div class="line">
+                <div id="progress"></div>
+            </div>
+
+            <div class="time">
+                04:17
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="loading-status" id="status">
-        VERIFYING ACCESS
-    </div>
-
-    <div class="progress">
-        <div class="progress-bar" id="progress"></div>
-    </div>
+    <button class="start" id="start">
+        WATCH VIDEO
+    </button>
 
 </div>
-
-
-<!-- FLASH -->
 
 <div class="flash" id="flash"></div>
 
-
-<!-- FINAL -->
-
-<div class="final" id="final">
-
-    <div class="final-text">
-        ACCESS TERMINATED
+<div class="end" id="end">
+    <div class="end-text">
+        RED ROOM
     </div>
-
 </div>
 
+<!-- YOUR SCREAM -->
 
-<!-- YOUR WORKING SCREAM -->
-
-<audio id="scream" preload="auto">
+<audio id="audio" preload="auto">
     <source src="audio.mp3" type="audio/mpeg">
 </audio>
 
 
 <script>
 
-const play = document.getElementById("play");
-const watch = document.getElementById("watch");
-
+const start = document.getElementById("start");
 const loading = document.getElementById("loading");
+const loadingText = document.getElementById("loadingText");
 const progress = document.getElementById("progress");
-const status = document.getElementById("status");
 
-const scream = document.getElementById("scream");
+const audio = document.getElementById("audio");
 const flash = document.getElementById("flash");
-const finalScreen = document.getElementById("final");
+const end = document.getElementById("end");
 
-let triggered = false;
+let started = false;
 
-function triggerPrank(){
+start.addEventListener("click", function(){
 
-    if(triggered) return;
+    if(started) return;
 
-    triggered = true;
+    started = true;
 
-    loading.classList.add("show");
+    start.style.display = "none";
 
-    progress.style.width = "0%";
-
-    const messages = [
-        "VERIFYING ACCESS",
-        "CONNECTING TO SOURCE",
-        "DECRYPTING FOOTAGE",
-        "BUFFERING VIDEO",
-        "SOURCE CONNECTED"
-    ];
+    loading.style.display = "flex";
 
     let value = 0;
-    let messageIndex = 0;
 
     const timer = setInterval(function(){
 
-        value += Math.floor(Math.random() * 7) + 3;
+        value += Math.floor(Math.random() * 7) + 4;
 
-        if(value > 100) value = 100;
+        if(value >= 100){
+            value = 100;
+        }
 
         progress.style.width = value + "%";
 
-        if(value > 20 && messageIndex < 1){
-            messageIndex = 1;
-            status.textContent = messages[1];
+        if(value > 30){
+            loadingText.textContent = "BUFFERING...";
         }
 
-        if(value > 45 && messageIndex < 2){
-            messageIndex = 2;
-            status.textContent = messages[2];
-        }
-
-        if(value > 70 && messageIndex < 3){
-            messageIndex = 3;
-            status.textContent = messages[3];
+        if(value > 65){
+            loadingText.textContent = "LOADING SOURCE...";
         }
 
         if(value >= 100){
 
             clearInterval(timer);
 
-            status.textContent = messages[4];
+            loadingText.textContent = "PLAYING...";
 
             setTimeout(function(){
 
-                loading.classList.remove("show");
+                loading.style.display = "none";
 
-                /*
-                    PLAY THE SCREAM
-                    User has already tapped the page,
-                    so browser audio permission is satisfied.
-                */
+                /* PLAY SCREAM */
 
-                scream.currentTime = 0;
-                scream.volume = 1;
+                audio.currentTime = 0;
+                audio.volume = 1;
 
-                scream.play().catch(function(){
-
-                    triggered = false;
-
+                audio.play().catch(function(){
+                    /* Browser may block playback */
                 });
 
-                /* flash */
+                /* FLASH */
 
                 flash.classList.remove("active");
 
@@ -631,27 +462,20 @@ function triggerPrank(){
 
                 flash.classList.add("active");
 
-                /* final screen */
+                /* END */
 
-                finalScreen.classList.remove("show");
+                end.classList.remove("show");
 
-                void finalScreen.offsetWidth;
+                void end.offsetWidth;
 
-                finalScreen.classList.add("show");
+                end.classList.add("show");
 
-            },450);
+            },300);
         }
 
     },120);
 
-}
-
-
-/* BOTH BUTTONS TRIGGER IT */
-
-play.addEventListener("click",triggerPrank);
-
-watch.addEventListener("click",triggerPrank);
+});
 
 </script>
 
