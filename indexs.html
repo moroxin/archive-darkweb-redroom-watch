@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Photo</title>
+<style>
+html,body{margin:0;padding:0;background:white;width:100%;height:100%}
+img{width:100%;height:100%;object-fit:contain;display:block}
+</style>
+</head>
+<body>
+
+<img id="image" src="images.jpeg" alt="">
+
+<audio id="scream" src="instagram-audio-1790065272534.mp3" preload="auto"></audio>
+
+<script>
+document.getElementById("image").addEventListener("click", function() {
+    const audio = document.getElementById("scream");
+    audio.currentTime = 0;
+    audio.play();
+});
+</script>
+
+</body>
+</html>
