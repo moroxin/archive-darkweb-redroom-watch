@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>THE ROOM</title>
+<title>Restricted Footage</title>
 
 <style>
 *{
@@ -15,236 +14,312 @@
 html,body{
     margin:0;
     width:100%;
-    height:100%;
-    overflow:hidden;
-    background:#050505;
-    color:white;
-    font-family:Arial,sans-serif;
+    min-height:100%;
+    background:#070707;
+    color:#eee;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-    user-select:none;
+    overflow-x:hidden;
 }
 
-.game{
-    position:relative;
-    width:100%;
-    height:100vh;
-    overflow:hidden;
+.page{
+    min-height:100vh;
     background:
-        radial-gradient(circle at 50% 45%,
-        #303030 0%,
-        #151515 35%,
-        #050505 78%);
+        radial-gradient(circle at 50% 20%,#242424 0,#0d0d0d 35%,#030303 80%);
 }
 
-/* subtle atmosphere */
-.game::before{
-    content:"";
-    position:absolute;
-    inset:-30%;
-    background:
-        radial-gradient(circle at 50% 50%,
-        rgba(255,255,255,.08),
-        transparent 35%);
-    animation:breath 6s infinite alternate ease-in-out;
-}
+/* TOP BAR */
 
-@keyframes breath{
-    from{transform:scale(1)}
-    to{transform:scale(1.15)}
-}
-
-/* top HUD */
-.top{
-    position:absolute;
-    top:0;
-    left:0;
-    right:0;
-    z-index:5;
-    padding:18px;
+.topbar{
+    height:55px;
+    border-bottom:1px solid #252525;
     display:flex;
+    align-items:center;
     justify-content:space-between;
-    font-size:11px;
+    padding:0 18px;
+    color:#777;
+    font-size:10px;
     letter-spacing:2px;
+}
+
+.logo{
+    color:#aaa;
+}
+
+.live{
     color:#777;
 }
 
-/* intro */
-.intro{
-    position:absolute;
-    inset:0;
-    z-index:10;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    padding:30px;
-    background:#050505;
-    transition:opacity 1s;
+.dot{
+    display:inline-block;
+    width:6px;
+    height:6px;
+    background:#777;
+    border-radius:50%;
+    margin-right:6px;
 }
 
-.intro.hide{
-    opacity:0;
-    pointer-events:none;
+/* CONTENT */
+
+.container{
+    width:min(720px,92%);
+    margin:auto;
+    padding:38px 0 60px;
 }
 
-.intro h1{
-    margin:0;
-    font-size:27px;
-    letter-spacing:7px;
+.warning{
+    color:#aaa;
+    font-size:10px;
+    letter-spacing:3px;
+    margin-bottom:14px;
+}
+
+.warning span{
+    color:#ddd;
+}
+
+/* TITLE */
+
+h1{
+    font-size:28px;
     font-weight:400;
+    letter-spacing:3px;
+    margin:0 0 9px;
 }
 
-.intro p{
-    margin:18px 0 30px;
+.sub{
     color:#777;
     font-size:12px;
+    line-height:1.6;
+    margin-bottom:25px;
+}
+
+/* FAKE FOOTAGE */
+
+.footage{
+    position:relative;
+    width:100%;
+    aspect-ratio:16/10;
+    overflow:hidden;
+    background:#111;
+    border:1px solid #292929;
+    box-shadow:0 20px 70px rgba(0,0,0,.7);
+}
+
+/* blurred suggestive silhouette */
+
+.scene{
+    position:absolute;
+    inset:-25px;
+    filter:blur(15px);
+    transform:scale(1.08);
+    background:
+        radial-gradient(
+            ellipse at 52% 28%,
+            rgba(190,160,150,.55) 0 8%,
+            transparent 9%
+        ),
+        radial-gradient(
+            ellipse at 50% 58%,
+            rgba(120,85,80,.75) 0 17%,
+            transparent 18%
+        ),
+        linear-gradient(
+            105deg,
+            #080808 0%,
+            #34302f 43%,
+            #171414 60%,
+            #050505 100%
+        );
+}
+
+/* silhouette shape */
+
+.scene:after{
+    content:"";
+    position:absolute;
+    width:42%;
+    height:80%;
+    left:29%;
+    top:14%;
+    border-radius:50% 50% 35% 35%;
+    background:
+        linear-gradient(
+            90deg,
+            #151515,
+            #806965 48%,
+            #171414
+        );
+    opacity:.45;
+}
+
+/* dark overlay */
+
+.footage:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:2;
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0,0,0,.25),
+            rgba(0,0,0,.05) 45%,
+            rgba(0,0,0,.65)
+        );
+}
+
+/* warning over image */
+
+.restricted{
+    position:absolute;
+    z-index:4;
+    top:18px;
+    left:18px;
+    padding:8px 10px;
+    border:1px solid rgba(255,255,255,.25);
+    background:rgba(0,0,0,.65);
+    font-size:9px;
     letter-spacing:2px;
 }
 
-.start{
-    padding:14px 28px;
-    border:1px solid #555;
-    background:transparent;
-    color:#ddd;
-    letter-spacing:3px;
-    font-size:11px;
-    cursor:pointer;
-}
-
-.start:active{
-    transform:scale(.96);
-}
-
-/* main room */
-.room{
+.blurtext{
     position:absolute;
-    inset:0;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    z-index:4;
+    left:0;
+    right:0;
+    top:50%;
+    transform:translateY(-50%);
+    text-align:center;
+    font-size:12px;
+    letter-spacing:4px;
+    color:#eee;
+    text-shadow:0 2px 12px #000;
 }
 
-/* floor */
-.floor{
+/* play button */
+
+.play{
     position:absolute;
-    bottom:-10%;
-    width:120%;
-    height:45%;
-    background:
-        linear-gradient(
-            165deg,
-            transparent 0%,
-            rgba(255,255,255,.035) 49%,
-            transparent 50%
-        );
-    transform:perspective(500px) rotateX(55deg);
-}
-
-/* door */
-.door{
-    position:relative;
-    width:min(68vw,300px);
-    height:min(62vh,460px);
-    min-height:330px;
-    background:
-        linear-gradient(90deg,
-        #0c0c0c,
-        #242424 48%,
-        #090909);
-    border:7px solid #111;
-    box-shadow:
-        0 0 0 2px #333,
-        0 25px 80px rgba(0,0,0,.9),
-        inset 0 0 50px #000;
+    z-index:5;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    width:68px;
+    height:68px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.7);
+    background:rgba(0,0,0,.55);
+    color:white;
+    font-size:23px;
+    padding-left:5px;
     cursor:pointer;
     transition:.2s;
 }
 
-.door:hover{
-    transform:scale(1.015);
+.play:hover{
+    background:rgba(255,255,255,.15);
+    transform:translate(-50%,-50%) scale(1.06);
 }
 
-.door:active{
-    transform:scale(.98);
+.play:active{
+    transform:translate(-50%,-50%) scale(.94);
 }
 
-/* door panels */
-.panel{
+/* bottom video bar */
+
+.video-bottom{
     position:absolute;
-    left:14%;
-    right:14%;
-    border:2px solid #080808;
-    box-shadow:inset 0 0 20px #000;
-}
-
-.panel.one{
-    top:9%;
-    height:30%;
-}
-
-.panel.two{
-    bottom:9%;
-    height:30%;
-}
-
-/* handle */
-.handle{
-    position:absolute;
-    right:8%;
-    top:50%;
-    width:20px;
-    height:20px;
-    border-radius:50%;
-    background:#888;
-    box-shadow:
-        0 0 6px #aaa,
-        inset 2px 2px 4px #222;
-}
-
-/* instructions */
-.instruction{
-    position:absolute;
-    bottom:55px;
+    z-index:5;
+    bottom:0;
     left:0;
     right:0;
-    text-align:center;
-    z-index:5;
+    height:38px;
+    padding:0 13px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:linear-gradient(transparent,rgba(0,0,0,.85));
 }
 
-.instruction strong{
-    display:block;
-    font-size:14px;
-    letter-spacing:4px;
-    font-weight:400;
-    animation:pulse 2s infinite;
+.time{
+    color:#aaa;
+    font-size:9px;
+    letter-spacing:1px;
 }
 
-.instruction span{
-    display:block;
-    margin-top:9px;
-    font-size:10px;
+.fake-line{
+    height:2px;
+    flex:1;
+    background:#333;
+}
+
+.fake-line div{
+    width:17%;
+    height:100%;
+    background:#aaa;
+}
+
+/* DETAILS */
+
+.details{
+    display:flex;
+    justify-content:space-between;
+    padding:15px 2px;
+    border-bottom:1px solid #222;
     color:#666;
-    letter-spacing:2px;
+    font-size:10px;
+    letter-spacing:1px;
 }
 
-@keyframes pulse{
-    0%,100%{opacity:.35}
-    50%{opacity:1}
+.description{
+    padding:23px 2px;
+    color:#777;
+    font-size:12px;
+    line-height:1.8;
 }
 
-/* fake loading screen */
+.description strong{
+    color:#bbb;
+    font-weight:400;
+}
+
+/* WATCH BUTTON */
+
+.watch{
+    width:100%;
+    padding:17px;
+    border:1px solid #555;
+    background:#111;
+    color:#eee;
+    font-size:11px;
+    letter-spacing:4px;
+    cursor:pointer;
+    margin-top:5px;
+    transition:.2s;
+}
+
+.watch:hover{
+    background:#1b1b1b;
+}
+
+.watch:active{
+    transform:scale(.99);
+}
+
+/* FAKE LOADING */
+
 .loading{
     position:fixed;
     inset:0;
-    z-index:20;
+    z-index:30;
     background:#050505;
     display:flex;
     flex-direction:column;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
     opacity:0;
     pointer-events:none;
     transition:opacity .3s;
@@ -255,180 +330,210 @@ body{
     pointer-events:auto;
 }
 
-.loading-text{
+.loading-title{
     font-size:11px;
     letter-spacing:3px;
     color:#aaa;
 }
 
-.bar{
-    width:180px;
-    height:2px;
-    background:#222;
-    margin-top:18px;
-    overflow:hidden;
+.loading-status{
+    margin-top:12px;
+    font-size:9px;
+    letter-spacing:2px;
+    color:#555;
 }
 
-.bar div{
+.progress{
+    width:min(300px,70%);
+    height:2px;
+    margin-top:22px;
+    background:#222;
+}
+
+.progress-bar{
+    width:0%;
     height:100%;
-    width:0;
     background:#aaa;
 }
 
-/* scream flash */
+/* FLASH */
+
 .flash{
     position:fixed;
     inset:0;
-    z-index:50;
+    z-index:60;
     background:white;
     opacity:0;
     pointer-events:none;
 }
 
 .flash.active{
-    animation:flash .5s;
+    animation:flash .45s ease-out;
 }
 
 @keyframes flash{
     0%{opacity:0}
-    12%{opacity:1}
+    12%{opacity:.95}
     100%{opacity:0}
 }
 
-/* final message */
+/* FINAL */
+
 .final{
     position:fixed;
     inset:0;
-    z-index:60;
+    z-index:70;
     display:flex;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
     text-align:center;
-    background:rgba(0,0,0,.85);
+    background:#000;
     opacity:0;
     pointer-events:none;
 }
 
 .final.show{
-    animation:finalShow 2s forwards;
+    animation:finalScreen 2.5s forwards;
 }
 
-.final h2{
-    font-size:14px;
+.final-text{
+    font-size:13px;
     letter-spacing:5px;
-    font-weight:400;
+    color:#eee;
 }
 
-@keyframes finalShow{
+@keyframes finalScreen{
     0%{opacity:0}
-    15%{opacity:1}
-    70%{opacity:1}
+    12%{opacity:1}
+    75%{opacity:1}
     100%{opacity:0}
 }
 
-/* bottom */
-.bottom{
-    position:absolute;
-    bottom:15px;
-    left:18px;
-    right:18px;
-    z-index:5;
-    display:flex;
-    justify-content:space-between;
-    color:#444;
-    font-size:9px;
-    letter-spacing:1.5px;
+.footer{
+    text-align:center;
+    color:#333;
+    font-size:8px;
+    letter-spacing:2px;
+    padding:25px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="game">
+<div class="page">
 
-    <div class="top">
-        <span>UNKNOWN ROOM</span>
-        <span>STATUS: NORMAL</span>
+    <div class="topbar">
+        <div class="logo">ARCHIVE / 07</div>
+        <div class="live">
+            <span class="dot"></span>
+            PRIVATE SERVER
+        </div>
     </div>
 
-    <!-- INTRO -->
-    <div class="intro" id="intro">
+    <main class="container">
 
-        <h1>THE ROOM</h1>
+        <div class="warning">
+            ⚠ <span>RESTRICTED FOOTAGE</span> — 18+ ONLY
+        </div>
 
-        <p>
-            Something is wrong with this place.
-        </p>
+        <h1>UNRELEASED FOOTAGE</h1>
 
-        <button class="start" id="start">
-            ENTER
-        </button>
+        <div class="sub">
+            Original source unavailable. Viewer discretion advised.
+        </div>
 
-    </div>
+        <div class="footage">
 
-    <!-- ROOM -->
-    <div class="room">
+            <div class="scene"></div>
 
-        <div class="floor"></div>
+            <div class="restricted">
+                18+ / RESTRICTED
+            </div>
 
-        <div
-            class="door"
-            id="door"
-            role="button"
-            tabindex="0"
-        >
+            <div class="blurtext">
+                CONTENT PREVIEW BLURRED
+            </div>
 
-            <div class="panel one"></div>
-            <div class="panel two"></div>
+            <button class="play" id="play">
+                ▶
+            </button>
 
-            <div class="handle"></div>
+            <div class="video-bottom">
+                <div class="time">00:00 / 04:17</div>
+                <div class="fake-line">
+                    <div></div>
+                </div>
+            </div>
 
         </div>
 
-    </div>
+        <div class="details">
+            <span>1,284,921 VIEWS</span>
+            <span>UPLOADED 2 HOURS AGO</span>
+        </div>
 
-    <div class="instruction">
-        <strong>FIND THE EXIT</strong>
-        <span>There is only one door.</span>
-    </div>
+        <div class="description">
+            <strong>DESCRIPTION</strong><br><br>
 
-    <div class="bottom">
-        <span>OBJECTIVE: ESCAPE</span>
-        <span>03:17 AM</span>
-    </div>
+            This footage appeared briefly on a private archive
+            before being removed. The original uploader has not
+            been identified.
+            <br><br>
+
+            The complete recording is available below.
+        </div>
+
+        <button class="watch" id="watch">
+            ▶ &nbsp; WATCH FULL FOOTAGE
+        </button>
+
+        <div class="footer">
+            ARCHIVE SYSTEM • CONNECTION SECURE
+        </div>
+
+    </main>
 
 </div>
 
 
-<!-- FAKE LOADING -->
+<!-- LOADING -->
+
 <div class="loading" id="loading">
 
-    <div class="loading-text">
-        OPENING DOOR...
+    <div class="loading-title">
+        CONNECTING TO SOURCE...
     </div>
 
-    <div class="bar">
-        <div id="bar"></div>
+    <div class="loading-status" id="status">
+        VERIFYING ACCESS
+    </div>
+
+    <div class="progress">
+        <div class="progress-bar" id="progress"></div>
     </div>
 
 </div>
 
 
 <!-- FLASH -->
+
 <div class="flash" id="flash"></div>
 
 
-<!-- FINAL MESSAGE -->
+<!-- FINAL -->
+
 <div class="final" id="final">
 
-    <h2>
-        YOU SHOULDN'T HAVE OPENED IT
-    </h2>
+    <div class="final-text">
+        ACCESS TERMINATED
+    </div>
 
 </div>
 
 
-<!-- YOUR WORKING AUDIO -->
+<!-- YOUR WORKING SCREAM -->
+
 <audio id="scream" preload="auto">
     <source src="audio.mp3" type="audio/mpeg">
 </audio>
@@ -436,60 +541,78 @@ body{
 
 <script>
 
-const intro = document.getElementById("intro");
-const start = document.getElementById("start");
-const door = document.getElementById("door");
+const play = document.getElementById("play");
+const watch = document.getElementById("watch");
 
 const loading = document.getElementById("loading");
-const bar = document.getElementById("bar");
+const progress = document.getElementById("progress");
+const status = document.getElementById("status");
 
 const scream = document.getElementById("scream");
 const flash = document.getElementById("flash");
-const finalMessage = document.getElementById("final");
+const finalScreen = document.getElementById("final");
 
-let started = false;
 let triggered = false;
 
+function triggerPrank(){
 
-/* ENTER GAME */
-
-start.addEventListener("click", function(){
-
-    if(started) return;
-
-    started = true;
-
-    intro.classList.add("hide");
-
-});
-
-
-/* OPEN DOOR */
-
-function openDoor(){
-
-    if(!started || triggered) return;
+    if(triggered) return;
 
     triggered = true;
 
-    /* fake loading */
     loading.classList.add("show");
 
-    let progress = 0;
+    progress.style.width = "0%";
+
+    const messages = [
+        "VERIFYING ACCESS",
+        "CONNECTING TO SOURCE",
+        "DECRYPTING FOOTAGE",
+        "BUFFERING VIDEO",
+        "SOURCE CONNECTED"
+    ];
+
+    let value = 0;
+    let messageIndex = 0;
 
     const timer = setInterval(function(){
 
-        progress += 4;
+        value += Math.floor(Math.random() * 7) + 3;
 
-        bar.style.width = progress + "%";
+        if(value > 100) value = 100;
 
-        if(progress >= 100){
+        progress.style.width = value + "%";
+
+        if(value > 20 && messageIndex < 1){
+            messageIndex = 1;
+            status.textContent = messages[1];
+        }
+
+        if(value > 45 && messageIndex < 2){
+            messageIndex = 2;
+            status.textContent = messages[2];
+        }
+
+        if(value > 70 && messageIndex < 3){
+            messageIndex = 3;
+            status.textContent = messages[3];
+        }
+
+        if(value >= 100){
 
             clearInterval(timer);
 
+            status.textContent = messages[4];
+
             setTimeout(function(){
 
-                /* PLAY SCREAM */
+                loading.classList.remove("show");
+
+                /*
+                    PLAY THE SCREAM
+                    User has already tapped the page,
+                    so browser audio permission is satisfied.
+                */
 
                 scream.currentTime = 0;
                 scream.volume = 1;
@@ -500,8 +623,7 @@ function openDoor(){
 
                 });
 
-
-                /* FLASH */
+                /* flash */
 
                 flash.classList.remove("active");
 
@@ -509,45 +631,27 @@ function openDoor(){
 
                 flash.classList.add("active");
 
+                /* final screen */
 
-                /* MESSAGE */
+                finalScreen.classList.remove("show");
 
-                loading.classList.remove("show");
+                void finalScreen.offsetWidth;
 
-                finalMessage.classList.remove("show");
+                finalScreen.classList.add("show");
 
-                void finalMessage.offsetWidth;
-
-                finalMessage.classList.add("show");
-
-
-            },300);
-
+            },450);
         }
 
-    },35);
+    },120);
 
 }
 
 
-/* CLICK */
+/* BOTH BUTTONS TRIGGER IT */
 
-door.addEventListener("click", openDoor);
+play.addEventListener("click",triggerPrank);
 
-
-/* KEYBOARD */
-
-door.addEventListener("keydown", function(e){
-
-    if(e.key === "Enter" || e.key === " "){
-
-        e.preventDefault();
-
-        openDoor();
-
-    }
-
-});
+watch.addEventListener("click",triggerPrank);
 
 </script>
 
