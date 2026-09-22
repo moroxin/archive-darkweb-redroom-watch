@@ -4,120 +4,334 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Photo</title>
+<title>THE DOOR</title>
 
 <style>
-* {
-    box-sizing: border-box;
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
 }
 
-html, body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    background: #000;
-    overflow: hidden;
+html,body{
+    margin:0;
+    width:100%;
+    min-height:100%;
+    background:#050505;
+    color:#eee;
+    font-family:Arial,sans-serif;
 }
 
-.container {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.photo {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-}
-
-.overlay {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
+.game{
+    min-height:100vh;
+    position:relative;
+    overflow:hidden;
     background:
-        linear-gradient(
-            to bottom,
-            rgba(0,0,0,.18),
-            transparent 25%,
-            transparent 75%,
-            rgba(0,0,0,.22)
-        );
+        radial-gradient(circle at 50% 45%, #292929 0%, #101010 38%, #030303 78%);
 }
 
-.top {
-    position: absolute;
-    top: 15px;
-    left: 16px;
-    right: 16px;
-    display: flex;
-    justify-content: space-between;
-    color: white;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    opacity: .75;
-    pointer-events: none;
+/* fog */
+.game:before{
+    content:"";
+    position:absolute;
+    inset:-20%;
+    background:
+        radial-gradient(ellipse at 50% 50%,
+        rgba(255,255,255,.08),
+        transparent 42%);
+    animation:fog 7s ease-in-out infinite alternate;
+    pointer-events:none;
 }
 
-.bottom {
-    position: absolute;
-    bottom: 16px;
-    left: 16px;
-    right: 16px;
-    display: flex;
-    justify-content: space-between;
-    color: white;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    opacity: .7;
-    pointer-events: none;
+@keyframes fog{
+    from{transform:scale(1)}
+    to{transform:scale(1.12)}
+}
+
+/* subtle film grain */
+.game:after{
+    content:"";
+    position:absolute;
+    inset:0;
+    opacity:.08;
+    pointer-events:none;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 2px,
+        #fff 3px
+      );
+}
+
+/* HUD */
+.hud{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    z-index:5;
+    padding:18px;
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    letter-spacing:2px;
+    color:#aaa;
+}
+
+.status{
+    color:#777;
+}
+
+/* center */
+.center{
+    position:relative;
+    z-index:3;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+    text-align:center;
+}
+
+/* fake door */
+.door{
+    width:min(72vw,310px);
+    height:min(58vh,480px);
+    min-height:330px;
+    position:relative;
+    border:7px solid #151515;
+    background:
+      linear-gradient(90deg,
+        #170000,
+        #650606 48%,
+        #260000);
+    box-shadow:
+      0 0 0 2px #320000,
+      0 25px 80px rgba(0,0,0,.9),
+      inset 0 0 45px #000;
+    cursor:pointer;
+    transition:.15s;
+}
+
+.door:hover{
+    transform:scale(1.015);
+}
+
+.door:active{
+    transform:scale(.985);
+}
+
+/* door panels */
+.panel{
+    position:absolute;
+    left:16%;
+    right:16%;
+    border:2px solid rgba(0,0,0,.65);
+    box-shadow:inset 0 0 20px rgba(0,0,0,.7);
+}
+
+.panel.one{
+    top:10%;
+    height:27%;
+}
+
+.panel.two{
+    bottom:10%;
+    height:27%;
+}
+
+.handle{
+    position:absolute;
+    right:9%;
+    top:50%;
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    background:#777;
+    box-shadow:
+      0 0 4px #aaa,
+      inset 2px 2px 4px #222;
+}
+
+/* prompt */
+.prompt{
+    margin-top:25px;
+    font-size:15px;
+    letter-spacing:3px;
+    color:#ddd;
+    animation:pulse 1.8s infinite;
+}
+
+@keyframes pulse{
+    0%,100%{opacity:.45}
+    50%{opacity:1}
+}
+
+.sub{
+    margin-top:10px;
+    font-size:11px;
+    letter-spacing:2px;
+    color:#666;
+}
+
+/* bottom HUD */
+.bottom{
+    position:absolute;
+    z-index:5;
+    bottom:18px;
+    left:18px;
+    right:18px;
+    display:flex;
+    justify-content:space-between;
+    color:#555;
+    font-size:10px;
+    letter-spacing:1.5px;
+}
+
+/* scream flash */
+.flash{
+    position:fixed;
+    inset:0;
+    z-index:20;
+    background:white;
+    opacity:0;
+    pointer-events:none;
+}
+
+.flash.active{
+    animation:flash .45s ease-out;
+}
+
+@keyframes flash{
+    0%{opacity:0}
+    15%{opacity:.9}
+    100%{opacity:0}
+}
+
+/* success message */
+.message{
+    position:fixed;
+    z-index:30;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    pointer-events:none;
+    opacity:0;
+    color:white;
+    font-size:12px;
+    letter-spacing:4px;
+}
+
+.message.show{
+    animation:message .8s forwards;
+}
+
+@keyframes message{
+    0%{opacity:0}
+    30%{opacity:1}
+    100%{opacity:0}
+}
+
+@media(max-width:500px){
+    .door{
+        width:70vw;
+        height:55vh;
+        min-height:330px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="game" id="game">
 
-    <img
-        class="photo"
-        src="images.jpeg"
-        alt=""
-    >
+    <div class="hud">
+        <span>UNKNOWN HOUSE</span>
+        <span class="status">SIGNAL: 98%</span>
+    </div>
 
-    <div class="overlay"></div>
+    <div class="center">
 
-    <div class="top">
-        <span>Photo</span>
-        <span>•••</span>
+        <div
+            class="door"
+            id="door"
+            role="button"
+            tabindex="0"
+            aria-label="Open the door"
+        >
+            <div class="panel one"></div>
+            <div class="panel two"></div>
+            <div class="handle"></div>
+        </div>
+
+        <div class="prompt">
+            [ OPEN THE DOOR ]
+        </div>
+
+        <div class="sub">
+            Something is waiting inside.
+        </div>
+
     </div>
 
     <div class="bottom">
-        <span>View</span>
-        <span>♡</span>
+        <span>OBJECTIVE: ESCAPE</span>
+        <span>DAY 01 • 03:17 AM</span>
     </div>
 
 </div>
 
+<div class="flash" id="flash"></div>
+<div class="message" id="message">
+    YOU SHOULDN'T HAVE OPENED IT
+</div>
+
 <audio id="scream" preload="auto">
     <source src="audio.mp3" type="audio/mpeg">
-    <source src="audio.wav" type="audio/wav">
-    <source src="audio.ogg" type="audio/ogg">
 </audio>
 
 <script>
+const door = document.getElementById("door");
 const scream = document.getElementById("scream");
+const flash = document.getElementById("flash");
+const message = document.getElementById("message");
 
-scream.volume = 1.0;
+let triggered = false;
 
-window.addEventListener("load", function () {
-    scream.play().catch(function () {
-        console.log("Autoplay blocked by browser");
+function activate(){
+    if(triggered) return;
+
+    triggered = true;
+
+    scream.currentTime = 0;
+    scream.volume = 1;
+
+    scream.play().catch(() => {
+        triggered = false;
     });
+
+    flash.classList.remove("active");
+    void flash.offsetWidth;
+    flash.classList.add("active");
+
+    message.classList.add("show");
+
+    setTimeout(() => {
+        message.classList.remove("show");
+    }, 900);
+}
+
+door.addEventListener("click", activate);
+
+door.addEventListener("keydown", function(e){
+    if(e.key === "Enter" || e.key === " "){
+        e.preventDefault();
+        activate();
+    }
 });
 </script>
 
